@@ -5,13 +5,13 @@ const app = require('../lib/app');
 const Order = require('../lib/models/Order');
 
 // TODO: Remove this function & use the Order model
-async function createOrder({ product, quantity }) {
-  const { rows } = await pool.query(
-    'INSERT INTO orders(product, quantity) VALUES ($1, $2) RETURNING *;',
-    [product, quantity]
-  );
-  return new Order(rows[0]);
-}
+// async function createOrder({ product, quantity }) {
+//   const { rows } = await pool.query(
+//     'INSERT INTO orders(product, quantity) VALUES ($1, $2) RETURNING *;',
+//     [product, quantity]
+//   );
+//   return new Order(rows[0]);
+// }
 
 // TODO: Remove this function & use the Order model
 async function getOrderById(id) {
@@ -47,7 +47,7 @@ describe('refactory routes', () => {
   });
 
   it('should be able to list an order by id', async () => {
-    const order = await createOrder({ product: 'Widget', quantity: 1 });
+    const order = await Order.insert({ product: 'Widget', quantity: 1 });
     const res = await request(app).get(`/api/v1/orders/${order.id}`);
 
     expect(res.body).toEqual(order);
